@@ -45,7 +45,7 @@ def prepare_verification_input(ctx: Context, node_input: dict):
 
 verification_agent = LlmAgent(
     name="image_verifier",
-    model="gemini-1.5-pro",
+    model="gemini-flash-latest",
     instruction="""You are a civic content verifier
 for Hey Hood, a neighborhood accountability app in India.
 
