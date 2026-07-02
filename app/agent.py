@@ -12,7 +12,9 @@ from google.adk.workflow import Edge, Workflow, node
 from pydantic import BaseModel, Field
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
-shared_dir = os.path.abspath(os.path.join(current_dir, "..", "..", "shared"))
+shared_dir = os.path.abspath(os.path.join(current_dir, "..", "shared"))
+if not os.path.exists(os.path.join(shared_dir, "firestore_client.py")):
+    shared_dir = os.path.abspath(os.path.join(current_dir, "..", "..", "shared"))
 sys.path.append(shared_dir)
 import firestore_client  # noqa: E402
 from security_checkpoint import security_checkpoint  # noqa: E402
