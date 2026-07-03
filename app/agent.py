@@ -83,20 +83,23 @@ def route_verification_result(ctx: Context, node_input):
     issue_id = issue.get("issue_id")
 
     if action == "publish" and score >= 0.7:
-        db.collection("issues").document(issue_id).update(
-            {"verified": True, "verification_score": score}
+        db.collection("issues").document(issue_id).set(
+            {"verified": True, "verification_score": score},
+            merge=True
         )
         yield Event(output=issue, actions=EventActions(route="verified"))
 
     elif action == "reject" or score < 0.5:
-        db.collection("issues").document(issue_id).update(
-            {"verified": False, "status": "Rejected", "verification_score": score}
+        db.collection("issues").document(issue_id).set(
+            {"verified": False, "status": "Rejected", "verification_score": score},
+            merge=True
         )
         yield Event(output=issue, actions=EventActions(route="rejected"))
 
     else:
-        db.collection("issues").document(issue_id).update(
-            {"verified": False, "status": "Pending Review", "verification_score": score}
+        db.collection("issues").document(issue_id).set(
+            {"verified": False, "status": "Pending Review", "verification_score": score},
+            merge=True
         )
         yield Event(output=issue, actions=EventActions(route="human_review"))
 
